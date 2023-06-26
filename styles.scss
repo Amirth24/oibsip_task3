@@ -1,0 +1,254 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+$calc: #FFE5B9;
+$container: #FFC1B6;
+$bg: #FFC1B6;
+
+$shadow: rgba(0, 0, 0, 0.653);
+
+$err: red;
+$expr-bg : #1c344538;
+$expr-f-f: adjust-hue($container, 30deg) ;
+$expr-f: darken($calc, 65);
+$result-f: darken($calc, 65);
+$result-b: #36536b7a;
+
+$btn-u: darken($calc, 15);
+$btn-op: lighten($calc, 10);
+$btn-n: #F05945;
+$btn-f: darken($container, 60);
+$btn-h: transparentize($calc, 1);
+$btn-f-h: darken($calc, 40);
+
+$border: black;
+
+
+$brd-r: 8px;
+
+body {
+
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background-color: $bg;
+
+    .container {
+        width: 100%;
+        height: 100vh;
+        background-color: $container;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border-radius: $brd-r;
+        transform: scale(120%);
+
+        backdrop-filter: blur(12px) backdrop-shadow(20px 15px 15px);
+
+        padding: 2rem 2.5rem;
+
+        .calculator {
+            outline: $bg;
+            border: 2px solid $border;
+            background-color: $calc;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            row-gap: 2rem;
+            border-radius: $brd-r;
+
+            box-shadow: $shadow 10px 10px 2px;
+        }
+        footer {
+            margin-top: 2.5em;
+            color: rgb(85, 57, 45);
+            
+            span {
+                font-size: small;
+                text-align: center;
+                vertical-align: bottom;
+
+                a {
+                    text-decoration: none;
+                    color: #1c3445cb;
+                }
+
+                a:hover {
+                    color: darken(#1c3445cb, 50);
+                }
+
+            }
+        }
+
+    }
+
+
+    
+}
+
+.display {
+    outline: 2px solid $border;
+    border-radius: $brd-r - 3;
+    padding: 0.4rem;
+    color: $result-f;
+    text-align: end;
+
+    box-shadow: lighten($color: $shadow, $amount: 30) 4px 4px 1.5px;
+
+    .expr {
+       
+        width: 100%;
+        font-size: large;
+        padding: 0.2em 0.3em;
+        border-radius: 4px;
+        color: $expr-f;
+        background-color: transparent;
+        border: none;
+        text-align: end;
+        vertical-align: top;
+        margin-bottom: 0.5em;
+    }
+
+    .expr:hover{
+        cursor: default;
+    }
+
+    .expr:focus {
+        outline: none;
+        background-color: $expr-bg;
+        color: $expr-f-f;
+
+        transition: all .1s ease-in;
+
+    }
+
+    .result {
+        line-height: 55px;
+        background-color: $result-b;
+        outline: solid 2px lighten($color: $result-b, $amount: 5);
+        outline-offset: 1px;
+        padding: 0 0.2em;
+
+        margin: auto;
+        border-radius: 4px;
+
+        font-size: 48px;
+    }
+
+    .err {
+        color: $err;
+        font-size: 36px;
+        outline: solid 1px $err;
+    }
+}
+@mixin place-button($y, $x, $span) {
+    grid-column: $y / span $span;
+    grid-row-start: $x;
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+    
+
+    button {
+        min-width: 2.5rem;
+        height: 2.5rem;
+        background-color: $btn-u;
+        color: darken($btn-u, 50);
+        border: none;
+        font-size: medium;
+        cursor: pointer;
+        vertical-align: middle;
+        border-radius: 0px 5px 0px;
+        line-height: 100%;
+        box-shadow: lighten($color: $shadow, $amount: 30) 2px 2px 1.5px;
+    }
+
+    button:hover {
+        background-color: $btn-h;
+        transition: 0.1s ease-in;
+        color: $btn-f-h;
+        transition-property: background-color transform font-size;
+        font-size: large;
+        outline: 2px solid $btn-f-h;
+        transform: scale(110%);
+    }
+
+    .num {
+        background-color: $btn-n;
+        color: lighten($btn-n, 35);
+    }
+
+    .op {
+        background-color: $btn-op;
+        color: darken($btn-op, 80);
+    }
+
+
+
+    @each $btn,
+        $n
+            in (
+                ("one", 0),
+                ("two", 1),
+                ("three", 2),
+                ("four", 3),
+                ("five", 4),
+                ("six", 5),
+                ("seven", 6),
+                ("eight", 7),
+                ("nine", 8)
+            )
+    {
+        ##{$btn} {
+            @include place-button($n % 3 + 1, 4 - floor(calc($n / 3)), 1);
+        }
+    }
+    @each $op, $n in (("clr", 1), ("sub", 2), ("mul", 3), ("div", 4), ("eq", 5)) {
+        ##{$op} {
+            @include place-button(5, $n, 1);
+        }
+    }
+
+    #zero {
+        @include place-button(1, 5, 3);
+
+        justify-self: stretch;
+    }
+
+    #dot {
+        @include place-button(4, 5, 1);
+    }
+
+    #add {
+        @include place-button(4, 2, 1);
+    }
+
+    #braces-o {
+        @include place-button(4, 3, 1);
+    }
+
+    #braces-c {
+        @include place-button(4, 4, 1);
+    }
+
+    #del {
+        @include place-button(4, 1, 1);
+    }
+}
+
+
+@media (max-width: 480px){
+    body {
+
+        .container {
+            transform: scale(90%);
+        }
+    }
+}

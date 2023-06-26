@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <link rel="shortcut icon" href="https://fonts.gstatic.com/s/i/short-term/release/materialsymbolsoutlined/calculate/default/48px.svg" type="image/x-icon">
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="calculator">
+            <div class="display">
+                <input type="text" pattern="\w" class="expr" value="" readonly/>
+                <p class="result">0</p>
+            </div>
+            <div class="buttons">
+                <button class="lit num" id="one">1</button>
+                <button class="lit num" id="two">2</button>
+                <button class="lit num" id="three">3</button>
+                <button class="lit num" id="four">4</button>
+                <button class="lit num" id="five">5</button>
+                <button class="lit num" id="six">6</button>
+                <button class="lit num" id="seven">7</button>
+                <button class="lit num" id="eight">8</button>
+                <button class="lit num" id="nine">9</button>
+                <button class="lit num" id="zero">0</button>
+                <button class="lit op" id="dot">.</button>
+                <button class="lit op" id="braces-o">(</button>
+                <button class="lit op" id="braces-c">)</button>
+                <button  id="clr">CE</button>
+                <button  id="del">DEL</button>
+                <button class="lit op" id="add">+</button>
+                <button class="lit op" id="sub">-</button>
+                <button class="lit op" id="div">/</button>
+                <button class="lit op" id="mul">*</button>
+                <button class="op" id="eq">=</button>
+            </div>
+        </div>
+        <footer><span>Coded by <a href="https://github.com/Amirth24">Amirth24</a></span></footer>
+    </div>
+
+
+    <script>
+        const expression = document.querySelector('.expr');
+        const numButtons = document.querySelectorAll('.lit');
+        const result= document.querySelector('.result');
+        
+        var answered = false, error = false;
+
+        function reset(){
+            answered = false;
+            if (error){
+                error = false;
+                result.classList.remove('err');
+                result.innerText = 0;
+            }
+            
+        }
+
+        // Functionalities for buttons
+        numButtons.forEach((b) => {
+            b.addEventListener('click', () => {
+                if (answered ) {
+                    if (b.classList.contains('num') || error){
+                        reset();
+                    }
+                    if (b.classList.contains('op')){
+                        let val = expression.getAttribute('value');
+                        expression.setAttribute('value', result.innerText+val);
+                
+                    }
+                }
+
+                let val = expression.getAttribute('value');
+                expression.setAttribute('value', val+b.innerText);
+                
+            });
+        });
+
+        // Clear and Delete buttons
+        document.getElementById('clr').addEventListener('click', () => {
+            expression.setAttribute('value', '');
+            result.innerText = 0;
+        });
+
+        document.getElementById('del').addEventListener('click', () => {
+            let val = expression.getAttribute('value');
+            expression.setAttribute('value', val.slice(0, val.length - 1));
+            
+        });
+        document.getElementById('eq').addEventListener('click', () => {
+            let expr = expression.getAttribute('value');
+            
+
+            let ans ;
+            try {
+
+                ans =  eval(expr);
+
+
+                ans = ans == Infinity ? setErr('Math Error') : ans; // Division by Error Checking
+
+            } catch (e) {
+                setErr('Syntax Error');
+            }
+            if (!error) {
+                result.innerText = ans || 0;
+            }
+            answered = true;
+        });
+
+        // input sanitation
+        function onChange(e){
+            console.log(e.target.checkValidity());
+        }
+        
+
+        function setErr(err) {
+            error = true;
+            result.innerText = err;
+            result.classList.add('err');
+        }
+
+
+
+    </script>
+
+
+</body>
+</html>

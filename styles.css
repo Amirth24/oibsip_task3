@@ -1,0 +1,223 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+body {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #FFC1B6;
+}
+body .container {
+  width: 100%;
+  height: 100vh;
+  background-color: #FFC1B6;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  transform: scale(120%);
+  backdrop-filter: blur(12px) backdrop-shadow(20px 15px 15px);
+  padding: 2rem 2.5rem;
+}
+body .container .calculator {
+  outline: #FFC1B6;
+  border: 2px solid black;
+  background-color: #FFE5B9;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  row-gap: 2rem;
+  border-radius: 8px;
+  box-shadow: rgba(0, 0, 0, 0.653) 10px 10px 2px;
+}
+body .container footer {
+  margin-top: 2.5em;
+  color: rgb(85, 57, 45);
+}
+body .container footer span {
+  font-size: small;
+  text-align: center;
+  vertical-align: bottom;
+}
+body .container footer span a {
+  text-decoration: none;
+  color: rgba(28, 52, 69, 0.7960784314);
+}
+body .container footer span a:hover {
+  color: rgba(0, 0, 0, 0.7960784314);
+}
+
+.display {
+  outline: 2px solid black;
+  border-radius: 5px;
+  padding: 0.4rem;
+  color: #6d4400;
+  text-align: end;
+  box-shadow: rgba(77, 77, 77, 0.653) 4px 4px 1.5px;
+}
+.display .expr {
+  width: 100%;
+  font-size: large;
+  padding: 0.2em 0.3em;
+  border-radius: 4px;
+  color: #6d4400;
+  background-color: transparent;
+  border: none;
+  text-align: end;
+  vertical-align: top;
+  margin-bottom: 0.5em;
+}
+.display .expr:hover {
+  cursor: default;
+}
+.display .expr:focus {
+  outline: none;
+  background-color: rgba(28, 52, 69, 0.2196078431);
+  color: #ffe6b6;
+  transition: all 0.1s ease-in;
+}
+.display .result {
+  line-height: 55px;
+  background-color: rgba(54, 83, 107, 0.4784313725);
+  outline: solid 2px rgba(63, 96, 124, 0.4784313725);
+  outline-offset: 1px;
+  padding: 0 0.2em;
+  margin: auto;
+  border-radius: 4px;
+  font-size: 48px;
+}
+.display .err {
+  color: red;
+  font-size: 36px;
+  outline: solid 1px red;
+}
+
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+}
+.buttons button {
+  min-width: 2.5rem;
+  height: 2.5rem;
+  background-color: #ffc96d;
+  color: #6d4400;
+  border: none;
+  font-size: medium;
+  cursor: pointer;
+  vertical-align: middle;
+  border-radius: 0px 5px 0px;
+  line-height: 100%;
+  box-shadow: rgba(77, 77, 77, 0.653) 2px 2px 1.5px;
+}
+.buttons button:hover {
+  background-color: rgba(255, 229, 185, 0);
+  transition: 0.1s ease-in;
+  color: #ec9400;
+  transition-property: background-color transform font-size;
+  font-size: large;
+  outline: 2px solid #ec9400;
+  transform: scale(110%);
+}
+.buttons .num {
+  background-color: #F05945;
+  color: #fdecea;
+}
+.buttons .op {
+  background-color: #fff8ec;
+  color: #533400;
+}
+.buttons #one {
+  grid-column: 1/span 1;
+  grid-row-start: 4;
+}
+.buttons #two {
+  grid-column: 2/span 1;
+  grid-row-start: 4;
+}
+.buttons #three {
+  grid-column: 3/span 1;
+  grid-row-start: 4;
+}
+.buttons #four {
+  grid-column: 1/span 1;
+  grid-row-start: 3;
+}
+.buttons #five {
+  grid-column: 2/span 1;
+  grid-row-start: 3;
+}
+.buttons #six {
+  grid-column: 3/span 1;
+  grid-row-start: 3;
+}
+.buttons #seven {
+  grid-column: 1/span 1;
+  grid-row-start: 2;
+}
+.buttons #eight {
+  grid-column: 2/span 1;
+  grid-row-start: 2;
+}
+.buttons #nine {
+  grid-column: 3/span 1;
+  grid-row-start: 2;
+}
+.buttons #clr {
+  grid-column: 5/span 1;
+  grid-row-start: 1;
+}
+.buttons #sub {
+  grid-column: 5/span 1;
+  grid-row-start: 2;
+}
+.buttons #mul {
+  grid-column: 5/span 1;
+  grid-row-start: 3;
+}
+.buttons #div {
+  grid-column: 5/span 1;
+  grid-row-start: 4;
+}
+.buttons #eq {
+  grid-column: 5/span 1;
+  grid-row-start: 5;
+}
+.buttons #zero {
+  grid-column: 1/span 3;
+  grid-row-start: 5;
+  justify-self: stretch;
+}
+.buttons #dot {
+  grid-column: 4/span 1;
+  grid-row-start: 5;
+}
+.buttons #add {
+  grid-column: 4/span 1;
+  grid-row-start: 2;
+}
+.buttons #braces-o {
+  grid-column: 4/span 1;
+  grid-row-start: 3;
+}
+.buttons #braces-c {
+  grid-column: 4/span 1;
+  grid-row-start: 4;
+}
+.buttons #del {
+  grid-column: 4/span 1;
+  grid-row-start: 1;
+}
+
+@media (max-width: 480px) {
+  body .container {
+    transform: scale(90%);
+  }
+}
+
+/*# sourceMappingURL=styles.css.map */
