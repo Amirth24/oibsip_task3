@@ -1,254 +1,263 @@
+@import url("https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap");
 * {
     margin: 0;
     padding: 0;
+    font-family: "Fira Sans", sans-serif;
     box-sizing: border-box;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
-$calc: #FFE5B9;
-$container: #FFC1B6;
-$bg: #FFC1B6;
 
-$shadow: rgba(0, 0, 0, 0.653);
+$bg: #c4b0ff;
+$sec: #8696fe;
+$prm: #c4b0ff;
+$txt: #f9f5f6;
 
-$err: red;
-$expr-bg : #1c344538;
-$expr-f-f: adjust-hue($container, 30deg) ;
-$expr-f: darken($calc, 65);
-$result-f: darken($calc, 65);
-$result-b: #36536b7a;
+$brdr: 4px;
 
-$btn-u: darken($calc, 15);
-$btn-op: lighten($calc, 10);
-$btn-n: #F05945;
-$btn-f: darken($container, 60);
-$btn-h: transparentize($calc, 1);
-$btn-f-h: darken($calc, 40);
+$li-h: 5rem;
+$task-name-s: 22px;
+$task-time-s: 14px;
+$task-stat-s: 12px;
 
-$border: black;
+*:hover {
+    transition: transform 0.2s ease-in;
+}
 
+button {
+    padding: 0.4rem 1rem;
+    border: none;
 
-$brd-r: 8px;
+    border-radius: inherit;
+
+    color: aliceblue;
+    cursor: pointer;
+
+    filter: drop-shadow(0 0 $bg 4px);
+
+    &:hover {
+        transform: scale(115%);
+    }
+}
 
 body {
-
-    width: 100%;
-    height: 100vh;
-    overflow: hidden;
     background-color: $bg;
+    display: grid;
+    overflow: hidden;
 
-    .container {
-        width: 100%;
-        height: 100vh;
-        background-color: $container;
+    height: 100vh;
+
+    padding: 1rem 3rem;
+    row-gap: 2rem;
+    column-gap: 5rem;
+
+    grid-template-columns: 1fr 1.5fr 1.5fr 1fr;
+    grid-template-rows: 2rem 8rem 2rem 60vh;
+    grid-template-areas:
+        "header header header header"
+        "input input input input"
+        "subheading subheading subheading subheading"
+        "empty1 list1 list2 empty2";
+    justify-items: center;
+
+    h1,
+    h2,
+    h3 {
+        align-self: self-start;
+        text-align: center;
+
+        color: #213555;
+    }
+
+    h2 {
+        font-size: 28px;
+    }
+
+    h3 {
+        font-size: 24px;
+    }
+
+    h1 {
+        grid-area: header;
+    }
+    fieldset {
+        background-color: $sec;
+        grid-area: input;
+        padding: 0.5rem 2.5rem;
+        box-shadow: 3.5px 3.5px 1px rgba(31, 14, 48, 0.675);
+
+        border-radius: $brdr;
+
+        &:is(& > *) {
+            filter: drop-shadow(0 0 6px black);
+        }
+
         display: flex;
         flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        border-radius: $brd-r;
-        transform: scale(120%);
+        justify-content: space-around;
+        border: none;
 
-        backdrop-filter: blur(12px) backdrop-shadow(20px 15px 15px);
+        input {
+            background-color: aliceblue;
+            border: 5px solid black;
+            border-radius: 2px;
+            padding: 0.5rem;
+            color: #213555;
+            accent-color: $prm;
+            border-color: whitesmoke;
 
-        padding: 2rem 2.5rem;
-
-        .calculator {
-            outline: $bg;
-            border: 2px solid $border;
-            background-color: $calc;
-            padding: 2rem;
-            display: flex;
-            flex-direction: column;
-            row-gap: 2rem;
-            border-radius: $brd-r;
-
-            box-shadow: $shadow 10px 10px 2px;
-        }
-        footer {
-            margin-top: 2.5em;
-            color: rgb(85, 57, 45);
-            
-            span {
-                font-size: small;
-                text-align: center;
-                vertical-align: bottom;
-
-                a {
-                    text-decoration: none;
-                    color: #1c3445cb;
-                }
-
-                a:hover {
-                    color: darken(#1c3445cb, 50);
-                }
-
+            &:hover,
+            &:focus {
+                transform: scale(115%);
+                border-radius: 6;
+                outline-offset: 1px;
             }
         }
 
-    }
-
-
-    
-}
-
-.display {
-    outline: 2px solid $border;
-    border-radius: $brd-r - 3;
-    padding: 0.4rem;
-    color: $result-f;
-    text-align: end;
-
-    box-shadow: lighten($color: $shadow, $amount: 30) 4px 4px 1.5px;
-
-    .expr {
-       
-        width: 100%;
-        font-size: large;
-        padding: 0.2em 0.3em;
-        border-radius: 4px;
-        color: $expr-f;
-        background-color: transparent;
-        border: none;
-        text-align: end;
-        vertical-align: top;
-        margin-bottom: 0.5em;
-    }
-
-    .expr:hover{
-        cursor: default;
-    }
-
-    .expr:focus {
-        outline: none;
-        background-color: $expr-bg;
-        color: $expr-f-f;
-
-        transition: all .1s ease-in;
-
-    }
-
-    .result {
-        line-height: 55px;
-        background-color: $result-b;
-        outline: solid 2px lighten($color: $result-b, $amount: 5);
-        outline-offset: 1px;
-        padding: 0 0.2em;
-
-        margin: auto;
-        border-radius: 4px;
-
-        font-size: 48px;
-    }
-
-    .err {
-        color: $err;
-        font-size: 36px;
-        outline: solid 1px $err;
-    }
-}
-@mixin place-button($y, $x, $span) {
-    grid-column: $y / span $span;
-    grid-row-start: $x;
-}
-
-.buttons {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 20px;
-    
-
-    button {
-        min-width: 2.5rem;
-        height: 2.5rem;
-        background-color: $btn-u;
-        color: darken($btn-u, 50);
-        border: none;
-        font-size: medium;
-        cursor: pointer;
-        vertical-align: middle;
-        border-radius: 0px 5px 0px;
-        line-height: 100%;
-        box-shadow: lighten($color: $shadow, $amount: 30) 2px 2px 1.5px;
-    }
-
-    button:hover {
-        background-color: $btn-h;
-        transition: 0.1s ease-in;
-        color: $btn-f-h;
-        transition-property: background-color transform font-size;
-        font-size: large;
-        outline: 2px solid $btn-f-h;
-        transform: scale(110%);
-    }
-
-    .num {
-        background-color: $btn-n;
-        color: lighten($btn-n, 35);
-    }
-
-    .op {
-        background-color: $btn-op;
-        color: darken($btn-op, 80);
-    }
-
-
-
-    @each $btn,
-        $n
-            in (
-                ("one", 0),
-                ("two", 1),
-                ("three", 2),
-                ("four", 3),
-                ("five", 4),
-                ("six", 5),
-                ("seven", 6),
-                ("eight", 7),
-                ("nine", 8)
-            )
-    {
-        ##{$btn} {
-            @include place-button($n % 3 + 1, 4 - floor(calc($n / 3)), 1);
+        button {
+            align-self: center;
+            background-color: darken($sec, 10%);
         }
     }
-    @each $op, $n in (("clr", 1), ("sub", 2), ("mul", 3), ("div", 4), ("eq", 5)) {
-        ##{$op} {
-            @include place-button(5, $n, 1);
+    h2 {
+        grid-area: subheading;
+    }
+
+    div {
+        width: 85%;
+        border-radius: $brdr;
+        background-color: transparentize($color: $sec, $amount: 0.2);
+        padding: 1.5rem;
+
+        box-shadow: 4px 4px 1px rgba(31, 14, 48, 0.592);
+
+        ul {
+            width: 95%;
+            list-style: none;
+            margin: 1.5rem auto;
+            overflow-y: scroll;
+            max-height: 4 * ($li-h + 1.6rem);
+
+            scrollbar-width: none;
+            scroll-snap-type: y mandatory;
+            display: grid;
+            gap: 1.2rem;
+
+            .new {
+                animation: fade-in 0.4s;
+            }
+
+            li {
+                border-radius: $brdr;
+                background-color: transparentize($color: $prm, $amount: 0.5);
+                scroll-snap-align: start;
+                width: 100%;
+                height: $li-h;
+                padding: 0.5em 1em;
+                border: 2px solid #222222;
+
+                display: grid;
+                grid-template-columns: 1fr 5fr 1fr;
+
+                grid-template-areas:
+                    "checkbox taskname delete"
+                    "checkbox taskTime delete"
+                    "checkbox completed delete";
+                align-items: center;
+
+                color: $txt;
+                column-gap: 15px;
+
+                input {
+                    grid-area: checkbox;
+                    place-self: center;
+                    transform: scale(170%);
+                    accent-color: lighten($sec, 0.5);
+                }
+
+                p {
+                    grid-area: taskname;
+                    font-size: $task-name-s;
+                }
+
+                time {
+                    grid-area: taskTime;
+                    font-size: $task-time-s;
+                    opacity: 0.65;
+                }
+
+                span {
+                    grid-area: completed;
+                    font-size: 12px;
+                }
+
+                button {
+                    grid-area: delete;
+                    background-color: darken(#db005b, 5%);
+                }
+            }
         }
     }
 
-    #zero {
-        @include place-button(1, 5, 3);
-
-        justify-self: stretch;
+    .tobe {
+        grid-area: list1;
     }
+    .completed {
+        grid-area: list2;
 
-    #dot {
-        @include place-button(4, 5, 1);
-    }
-
-    #add {
-        @include place-button(4, 2, 1);
-    }
-
-    #braces-o {
-        @include place-button(4, 3, 1);
-    }
-
-    #braces-c {
-        @include place-button(4, 4, 1);
-    }
-
-    #del {
-        @include place-button(4, 1, 1);
+        li {
+            filter: saturate(0.3);
+            p {
+                text-decoration: line-through;
+                text-decoration-color: #213555;
+                text-decoration-thickness: 2px;
+            }
+        }
     }
 }
 
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
 
-@media (max-width: 480px){
+    100% {
+        opacity: 1;
+    }
+}
+
+@media (max-width: 768px) {
     body {
+        grid-template-columns: 1fr;
+        grid-template-rows: 0.5fr 1.5fr 0.5fr 3fr 3fr;
+        grid-template-areas:
+            "header "
+            "input "
+            "subheading "
+            "list1 "
+            "list2 ";
+        height: auto;
+        overflow-y: scroll;
+        padding-bottom: 2rem;
+        row-gap: 0.5rem;
 
-        .container {
-            transform: scale(90%);
+        div {
+            min-width: 340px;
+
+            padding: 0 initial;
+            ul {
+                max-height: 2 * ($li-h + 1.6rem);
+            }
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    li {
+        p {
+            font-size: smaller;
+        }
+
+        button {
+            font-size: 12px;
         }
     }
 }
